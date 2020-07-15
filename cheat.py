@@ -3,6 +3,7 @@ try:
  import requests
  from time import sleep
  from telethon.tl.functions.messages import GetHistoryRequest
+ from telethon.tl.functions.messages import ImportChatInviteRequest
  from telethon.tl.functions.messages import GetBotCallbackAnswerRequest
  from telethon import TelegramClient, sync, events
  from telethon.errors import SessionPasswordNeededError, FloodWaitError
@@ -13,25 +14,23 @@ except:
  os.system("pip install telethon")
  
 os.system("clear")
-
-
-k= "\033[1;30m******\033[1;31m*****\033[1;32m*****\033[1;33m*****\033[1;34m******\033[1;35m******\033[1;36m******"
-join = input(" \033[1;32mNhập Username Group: \033[1;033m")
-a = input(" \033[1;32mNhập Tin Nhắn : \033[1;033m")
-print ("\033[0m")
-join1 = '@acvtip'
-api_id = 1386891
-api_hash = 'c6ac9c8d6baa179ff3d360b35fc0e588'
+a = input("\033[1;32m Nhập Link Join or Username group : \033[1;33m")
+b = input("\033[1;32m Nhập ID or Username Group : \033[1;33m")
+t = input("\033[1;32m Nhập Tin Nhắn : \033[1;33m")
+k= "\033[1;30m******\033[1;31m*****\033[1;32m*****\033[1;33m*****\033[1;34m******\033[1;35m******\033[1;36m******\033[1;0m"
+print(k)
+api_id = 1614433
+api_hash = '04b7f0e33ff8f18224a6e6d9b686328f'
 
 if not os.path.exists("session"):
  os.makedirs("session")
 
-if not os.path.exists("phon.txt"):
- f = open("phon.txt", "w")
+if not os.path.exists("phone.txt"):
+ f = open("phone.txt", "w")
  f.write(input("\033[1;32mLần Đầu Chạy Vui Lòng Nhập Số Điện Thoại: \033[1;31m: \033[1;33m"))
  f.close()
  
-f = open("phon.txt", "r")
+f = open("phone.txt", "r")
 
 def connect(phone):
     client = TelegramClient('session/'+phone,api_id,api_hash)
@@ -50,9 +49,6 @@ def connect(phone):
          client.sign_in(password=f2a)
          
     return client
- 
-print(k)
-
 for i in f:
 
   phone = str(i.strip())
@@ -60,20 +56,23 @@ for i in f:
   client = connect(phone)
   
   sleep (0)
-  
   print(" \033[1;33m[P] Số Điện Thoại  :",phone,)
+  try:
+  	client(ImportChatInviteRequest(a))
+  except:
+  	sleep(0)
+  try:
+  	client(JoinChannelRequest(a))
+  except:
+  	sleep(0)
   
   try:
-  	client(JoinChannelRequest(join))
+      client.send_message((b), (t))
   except:
-  	print ("\033[1;32m")
-  
-  try:
-  	client.send_message((join), (a))
-  except:
-  	print (" \033[1;31m[×] Lỗi Không Gửi Được Tin Nhắn")
+  	print("\033[1;31m     ...Không Gửi Được Tin Nhắn...")
+  else:
+  	print("\033[1;32m    ...Đã Gửi Tin Nhắn Đến Group...")
   print(k)
-
   client.disconnect()
   continue
-  sleep (0)
+  sleep(0)
